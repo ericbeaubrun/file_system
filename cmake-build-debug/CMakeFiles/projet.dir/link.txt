@@ -1,0 +1,1 @@
+/usr/bin/cc -g -Wl,--enable-auto-import CMakeFiles/projet.dir/main.c.o CMakeFiles/projet.dir/src/library.c.o CMakeFiles/projet.dir/src/partition.c.o -o projet.exe -Wl,--out-implib,libprojet.dll.a -Wl,--major-image-version,0,--minor-image-version,0 
