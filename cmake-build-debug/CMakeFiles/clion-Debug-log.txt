@@ -1,19 +1,10 @@
-C:\Users\menwa\AppData\Local\JetBrains\CLion2023.3\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" -S /cygdrive/c/JetBrains/Clion/file_system -B /cygdrive/c/JetBrains/Clion/file_system/cmake-build-debug
-CMake Deprecation Warning:
-  Support for "Extra Generators" like
-
-    CodeBlocks
-
-  is deprecated and will be removed from a future version of CMake.  IDEs may
-  use the cmake-file-api(7) to view CMake-generated project build trees.
-
-
+C:\Users\menwa\AppData\Local\JetBrains\CLion2023.3\cygwin_cmake\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/cygdrive/c/Users/menwa/AppData/Local/Programs/CLion/bin/ninja/cygwin/x64/ninja.exe -G Ninja -S /cygdrive/c/JetBrains/Clion/file_system -B /cygdrive/c/JetBrains/Clion/file_system/cmake-build-debug
 -- The C compiler identification is GNU 11.4.0
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
 -- Check for working C compiler: /usr/bin/cc - skipped
 -- Detecting C compile features
 -- Detecting C compile features - done
--- Configuring done (3.1s)
+-- Configuring done (1.9s)
 -- Generating done (0.0s)
 -- Build files have been written to: /cygdrive/c/JetBrains/Clion/file_system/cmake-build-debug
