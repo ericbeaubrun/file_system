@@ -216,12 +216,7 @@ int main() {
                 printf("\nContenu généré dans le fichier !\n");
                 break;
 
-            case 7:
-                printf("\n\n\n");
-                showPartitionInfo(partition);
-                break;
-
-            case 8 : // Utilisation de mySize(File *file);;
+            case 7 : // Utilisation de mySize(File *file);;
                 printf("Saisir le NOM DU FICHIER :\n");
                 printf(">>");
                 scanf("%s", &fileName);
@@ -241,7 +236,10 @@ int main() {
                 }
                 tmp = NULL;
                 break;
-
+            case 8:
+                printf("\n\n\n");
+                showPartitionInfo(partition);
+                break;
 
             default:
                 cleanup(partition);
