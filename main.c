@@ -18,6 +18,7 @@ int main() {
     char fileName[FILENAME_MAX_SIZE];
     char *content;
     int size;
+    File *tmp = NULL;
 
     // Stocke les valeurs de retour lors des appels de fonctions
     int ret;
@@ -64,6 +65,9 @@ int main() {
             printf("INFOS : FICHIER OUVERT \"%s\" (%d octets) (offset=%d)\n", file->name, file->size, file->offset);
         }
         printf("\n");
+        printf("(0) - Quitter\n");
+        printf("\n");
+
         printf("(1) - Ouvrir/Créer un fichier \t\t\t\t'myOpen'\n");
         printf("(2) - Placer le pointeur dans un fichier \t'mySeek'\n");
         printf("(3) - Ecrire dans un fichier \t\t\t\t'myWrite'\n");
@@ -71,14 +75,21 @@ int main() {
         printf("(5) - Supprimer un fichier \t\t\t\t\t'myDelete'\n");
         printf("(6) - Générer Lorem Ipsum (255 Octets pour occuper plus de pages)\n");
         printf("(7) - Visualiser le contenu de la partition (fichiers, pages, ...)\n");
-        printf("(8) - Quitter\n");
+        printf("(8) - Trouver la taille d'un fichier\n");
         printf("-----------------------------------------------------------------\n");
 
-        printf("Saisir un NUMERO allant de (1) à (8) :\n");
+        printf("Saisir un NUMERO allant de (0) à (8) :\n");
         printf(">>");
         scanf("%d", &choice);
 
         switch (choice) {
+
+            case 0 :
+                printf("Fermeture du programme.\n");
+                writePartitionMetadata(partition, partitionName);
+                cleanup(partition);
+                return 0;
+
             case 1: // Utilisation de myOpen(Partition *partition, const char *filename);
                 printf("Saisir le NOM DU FICHIER à ouvrir ou créer :\n");
                 printf(">>");
@@ -214,11 +225,27 @@ int main() {
                 showPartitionInfo(partition);
                 break;
 
-            case 8 :
-                printf("Fermeture du programme.\n");
-                writePartitionMetadata(partition, partitionName);
-                cleanup(partition);
-                return 0;
+            case 8 : // Utilisation de mySize(File *file);;
+                printf("Saisir le NOM DU FICHIER :\n");
+                printf(">>");
+                scanf("%s", &fileName);
+                printf("\n\n\n");
+
+                for (int i = 0; i < partition->file_table.total_files; ++i) {
+                    if (strcmp(partition->file_table.files[i]->name, fileName) == 0) {
+                        tmp = partition->file_table.files[i];
+                        break;
+                    }
+                }
+
+                if (tmp == NULL) {
+                    printf("Le fichier \"%s\" n'existe pas !\n", fileName);
+                } else {
+                    printf("Taille du fichier \"%s\" : %d Octets\n", fileName, mySize(tmp));
+                }
+                tmp = NULL;
+                break;
+
 
             default:
                 cleanup(partition);

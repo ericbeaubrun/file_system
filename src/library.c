@@ -315,4 +315,8 @@ int myDelete(const char *fileName, Partition *partition) {
     return 0;
 }
 
+int mySize(File *file) {
+    return (int) (file != NULL ? file->size : -1);
+}
+
 #endif

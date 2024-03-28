@@ -37,3 +37,9 @@ int myWrite(File *file, const char *buffer, int nBytes, Partition *partition);
  * Retourne 0 si le fichier a bien été supprimé.
  * */
 int myDelete(const char *fileName, Partition *partition);
+
+
+/*
+ * Retourne la taille du fichier, -1 en cas de fichier NULL.
+ * */
+int mySize(File *file);
