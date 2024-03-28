@@ -21,7 +21,7 @@ int myFormat(char *partitionName) {
     }
 
     // Si la commande Linux n'a pas fonctionnée :
-    printf("WARN : Erreur de formatage de la partition avec la commande linux, tentative avec la commande windows.\n");
+    // printf("WARN : Erreur de formatage de la partition avec la commande linux, tentative avec la commande windows.\n");
 
     command_str = WINDOWS_COMMAND;
 

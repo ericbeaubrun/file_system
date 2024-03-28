@@ -1,8 +1,21 @@
 #include "include/library.h"
 
+/*
+ * Affiche en console les données de la partition prise en paramètre
+ * */
 void showPartitionInfo(Partition *partition);
 
+/*
+ * Génère 255 octets de Lorem Ipsum dans le fichier choisi.
+ * */
 void generateLoremIpsum(File *file, Partition *partition);
+
+/*
+ * Affiche le menu de test qui permet de faire un choix.
+ * */
+void printMenu(File *file, int *choice);
+
+void pushToContinue();
 
 int main() {
 
@@ -22,15 +35,16 @@ int main() {
 
     // Stocke les valeurs de retour lors des appels de fonctions
     int ret;
-
-    printf("INFOS :\nDans ce programme de test :\n");
+    printf("\n******************************************************************\n");
+    printf("Bienvenue dans notre programme de test :\n");
     printf("-Vous pouvez ouvrir un seul fichier à la fois.\n");
     printf("-Lorsqu'un fichier est ouvert, vous pouvez utilisez les fonctions de la bibliothèques.\n");
     printf("-Lorsque \">>\" s'affiche vous pouvez faire une saisie.\n");
-    printf("ATTENTION à ne saisir de type invalide / chaine de caractère vide\n"
-           "Cela pourrais provoquer des erreurs dans le programme et dans la partition\n\n");
+    printf("ATTENTION à ne saisir de type invalide / chaine de caractère vide :\n"
+           "Cela pourrais provoquer des erreurs dans le programme et dans la partition\n");
+    printf("******************************************************************\n\n\n");
 
-    printf("Saisir le NOM DE LA PARTITION à formater avec \"myFormat\" (si elle existe déjà alors elle sera récupérée) :\n");
+    printf("Saisir le NOM DE LA PARTITION à formater \'myFormat\' :\n(si la partition existe déjà alors elle sera récupérée)\n");
     printf(">>");
 
     // Attention : choisir un nom d'une taille pouvant rentrer dans partitionName.
@@ -45,10 +59,12 @@ int main() {
             perror("La partition n'a pas pu être formatée.\n");
             return -1;
         }
-        printf("Partition formatée avec succès.\n");
+        printf("\n-----------------------------------------------------------------\n");
+        printf("\nPartition formatée avec succès !\n");
 
     } else {
-        printf("Partition chargée avec succès\n");
+        printf("\n-----------------------------------------------------------------\n");
+        printf("\nPartition chargée avec succès !\n");
     }
 
     // Charger la partition existante dans la structure Partition pour manipuler les données
@@ -57,44 +73,22 @@ int main() {
 
     // Menu
     while (1) {
-        printf("\n******************************************************************\n");
 
-        if (file == NULL) {
-            printf("INFOS : AUCUN FICHIER N'EST OUVERT !\n");
-        } else {
-            printf("INFOS : FICHIER OUVERT \"%s\" (%d octets) (offset=%d)\n", file->name, file->size, file->offset);
-        }
-        printf("\n");
-        printf("(0) - Quitter\n");
-        printf("\n");
-
-        printf("(1) - Ouvrir/Créer un fichier \t\t\t\t'myOpen'\n");
-        printf("(2) - Placer le pointeur dans un fichier \t'mySeek'\n");
-        printf("(3) - Ecrire dans un fichier \t\t\t\t'myWrite'\n");
-        printf("(4) - Lire dans un fichier \t\t\t\t\t'myRead'\n");
-        printf("(5) - Supprimer un fichier \t\t\t\t\t'myDelete'\n");
-        printf("(6) - Générer Lorem Ipsum (255 Octets pour occuper plus de pages)\n");
-        printf("(7) - Visualiser le contenu de la partition (fichiers, pages, ...)\n");
-        printf("(8) - Trouver la taille d'un fichier\n");
-        printf("-----------------------------------------------------------------\n");
-
-        printf("Saisir un NUMERO allant de (0) à (8) :\n");
-        printf(">>");
-        scanf("%d", &choice);
+        printMenu(file, &choice);
 
         switch (choice) {
 
             case 0 :
-                printf("Fermeture du programme.\n");
                 writePartitionMetadata(partition, partitionName);
                 cleanup(partition);
+                printf("Partition sauvegardée.\nProgramme terminé.\n");
                 return 0;
 
             case 1: // Utilisation de myOpen(Partition *partition, const char *filename);
                 printf("Saisir le NOM DU FICHIER à ouvrir ou créer :\n");
                 printf(">>");
                 scanf("%s", &fileName);
-                printf("\n\n\n");
+                printf("\n");
 
                 file = myOpen(fileName, partition);
 
@@ -121,18 +115,21 @@ int main() {
                 switch (choice) {
                     case 1:
                         setSeekToStart(file);
+                        printf("\nVous avez été placé au début du fichier \'%s\'.\n", file->name);
                         break;
 
                     case 2:
                         setSeekToEnd(file);
+                        printf("\nVous avez été placé à la fin du fichier \'%s\'.\n", file->name);
                         break;
 
                     case 3:
                         printf("Saisir l'emplacement :\n");
                         printf(">>");
                         scanf("%d", &choice);
-                        printf("\n\n\n");
+                        printf("\n");
                         mySeek(file, choice);
+                        printf("\nVous avez été placé à l'emplacement %d du fichier \'%s\'.\n", choice, file->name);
                         break;
                 }
                 break;
@@ -152,9 +149,8 @@ int main() {
                 printf("Saisir les données à écrire :\n");
                 printf(">>");
                 scanf("%s", content);
-                printf("\n\n\n");
+                printf("\n");
 
-                // setSeekToEnd(file);
                 ret = myWrite(file, content, size, partition);
 
                 printf("Nombre d'octets écrits = %d\n", ret);
@@ -171,7 +167,7 @@ int main() {
                 printf("Saisir la taille des données à lire :\n");
                 printf(">>");
                 scanf("%d", &size);
-                printf("\n\n\n");
+                printf("\n");
 
                 content = malloc(size + 1); // Ajouter 1 pour le "\0"
 
@@ -198,26 +194,26 @@ int main() {
 
             case 5: // Utilisation de myDelete(const char *fileName, Partition *partition);
                 if (file == NULL) {
-                    printf("Vous devez d'abord ouvrir un fichier pour effectuer cette action !\n\n\n");
+                    printf("\nVous devez d'abord ouvrir un fichier pour effectuer cette action !\n");
                     break;
                 }
-                printf("Tentative de suppression du fichier \"%s\"\n", file->name);
+                printf("\nTentative de suppression du fichier \"%s\".\n", file->name);
                 ret = myDelete(file->name, partition);
                 if (ret == 0) {
                     file = NULL;
-                    printf("Fichier supprimé avec succès !\n");
+                    printf("\nLe fichier a été supprimé avec succès !\n");
                 } else {
-                    printf("Le fichier n'a pas pu être supprimé.");
+                    printf("\nLe fichier n'a pas pu être supprimé.\n");
                 }
                 break;
 
             case 6:
                 if (file == NULL) {
-                    printf("Vous devez d'abord ouvrir un fichier pour effectuer cette action !\n\n\n");
+                    printf("Vous devez d'abord ouvrir un fichier pour effectuer cette action !\n");
                     break;
                 }
                 generateLoremIpsum(file, partition);
-                printf("\nContenu généré dans le fichier !\n\n\n");
+                printf("\nContenu généré dans le fichier !\n");
                 break;
 
             case 7:
@@ -229,7 +225,7 @@ int main() {
                 printf("Saisir le NOM DU FICHIER :\n");
                 printf(">>");
                 scanf("%s", &fileName);
-                printf("\n\n\n");
+                printf("\n");
 
                 for (int i = 0; i < partition->file_table.total_files; ++i) {
                     if (strcmp(partition->file_table.files[i]->name, fileName) == 0) {
@@ -258,13 +254,13 @@ int main() {
 void showPartitionInfo(Partition *partition) {
     printf("\n-----------------------------------------------------------------\n");
     printf("INFORMATIONS SUR LA PARTITION :\n");
-    printf("Nom : \t\t\t\t\t\t\t\t\t\"%s\"\n", partition->name);
+    printf("Nom : \t\t\t\t\t\t\"%s\"\n", partition->name);
     printf("Nombre de fichiers : \t\t\t\t\t%d\n", partition->file_table.total_files);
-    printf("Espace réservé aux métadonnées : \t\t%d Octets\n", PARTITION_METADATA_MAX_SIZE);
-    printf("Nombre de pages utilisées : \t\t\t%d\n", getAllPageCount(*partition));
+    printf("Espace réservé aux métadonnées : \t\t\t%d Octets\n", PARTITION_METADATA_MAX_SIZE);
+    printf("Nombre de pages utilisées : \t\t\t\t%d\n", getAllPageCount(*partition));
     printf("Nombre de pages max : \t\t\t\t\t%d\n", getMaxPagesAmount());
     printf("Taille de chaque page : \t\t\t\t%d Octets\n", PAGE_MAX_SIZE);
-    printf("Espace utilisé par les fichiers : \t\t%d Octets\n", getUsedSpace(*partition));
+    printf("Espace utilisé par les fichiers : \t\t\t%d Octets\n", getUsedSpace(*partition));
     printf("Espace disponible : \t\t\t\t\t%d Octets\n",
            PARTITION_MAX_SIZE - PARTITION_METADATA_MAX_SIZE - getUsedSpace(*partition));
 
@@ -283,6 +279,38 @@ void showPartitionInfo(Partition *partition) {
         printf("[]");
         printf("\n\n");
     }
+}
+
+void pushToContinue() {
+    printf("\nAppuyez sur une touche pour afficher le menu...\n");
+    getchar();
+    getchar();
+}
+
+void printMenu(File *file, int *choice) {
+    pushToContinue();
+    printf("\n\n");
+    printf("\n******************************************************************\n");
+    if (file == NULL) {
+        printf("AUCUN FICHIER N'EST OUVERT !\n");
+    } else {
+        printf("FICHIER OUVERT \"%s\" (%d octets) (offset=%d)\n", file->name, file->size, file->offset);
+    }
+    printf("\n");
+    printf("(0) - Sauvegarder et Quitter\n");
+    printf("(1) - Ouvrir/Créer un fichier \t\t\t'myOpen'\n");
+    printf("(2) - Placer le pointeur dans un fichier \t'mySeek'\n");
+    printf("(3) - Ecrire dans un fichier \t\t\t'myWrite'\n");
+    printf("(4) - Lire dans un fichier \t\t\t'myRead'\n");
+    printf("(5) - Supprimer un fichier \t\t\t'myDelete'\n");
+    printf("(6) - Générer Lorem Ipsum (255 Octets pour occuper plus de pages)\n");
+    printf("(7) - Visualiser le contenu de la partition (fichiers, pages, ...)\n");
+    printf("(8) - Trouver la taille d'un fichier\n");
+    printf("-----------------------------------------------------------------\n");
+
+    printf("Saisir un NUMERO allant de (0) à (8) :\n");
+    printf(">>");
+    scanf("%d", choice);
 }
 
 void generateLoremIpsum(File *file, Partition *partition) {
