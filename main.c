@@ -202,7 +202,7 @@ int main() {
                 ret = myDelete(file->name, partition);
                 if (ret == 0) {
                     file = NULL;
-                    printf("\nLe fichier a été supprimé avec succès !\n");
+                    printf("\nLe fichier actuellement ouvert a été supprimé avec succès !\n");
                 } else {
                     printf("\nLe fichier n'a pas pu être supprimé.\n");
                 }
@@ -217,7 +217,7 @@ int main() {
                 printf("\nContenu généré dans le fichier !\n");
                 break;
 
-            case 7 : // Utilisation de mySize(File *file);;
+            case 8 : // Utilisation de mySize(File *file);;
                 printf("Saisir le NOM DU FICHIER :\n");
                 printf(">>");
                 scanf("%s", &fileName);
@@ -237,7 +237,7 @@ int main() {
                 }
                 tmp = NULL;
                 break;
-            case 8:
+            case 7:
                 printf("\n\n\n");
                 showPartitionInfo(partition);
                 break;
