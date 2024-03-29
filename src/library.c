@@ -72,7 +72,7 @@ File *myOpen(const char *fileName, Partition *partition) {
     }
 }
 
-void mySeek(File *file, int offset) {
+void mySeek(File *file, int offset, int base) {
     if (file != NULL) {
         if (offset < 0) {
             setSeekToStart(file);
@@ -186,9 +186,7 @@ int myRead(File *file, char *buffer, int nBytes, Partition *partition) {
 
 int myWrite(File *file, const char *buffer, int nBytes, Partition *partition) {
 
-    if (file == NULL || buffer == NULL || nBytes <= 0) {
-        return -1;
-    }
+    if (file == NULL || buffer == NULL || nBytes <= 0) return -1;
 
     int fd = open(partition->name, O_WRONLY | O_CREAT, 0644);
 
@@ -308,7 +306,6 @@ int myDelete(const char *fileName, Partition *partition) {
 
     removeFromFileTable(&partition->file_table, fileName);
 
-//    freePageAddressList(&file->first_page_address);
     freeFile(&file);
 
     close(fd);

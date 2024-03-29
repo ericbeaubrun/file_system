@@ -10,7 +10,7 @@ int myFormat(char *partitionName);
  * Si l'offset est supérieur à la taille, le pointeur est placé à la fin du fichier.
  * Si l'offset est négatif, il est placé au début du fichier.
  * */
-void mySeek(File *file, int offset);
+void mySeek(File *file, int offset, int base);
 
 /*
  * Ouvre un fichier dans la partition.

@@ -35,6 +35,7 @@ int main() {
 
     // Stocke les valeurs de retour lors des appels de fonctions
     int ret;
+
     printf("\n******************************************************************\n");
     printf("Bienvenue dans notre programme de test :\n");
     printf("-Vous pouvez ouvrir un seul fichier à la fois.\n");
@@ -128,7 +129,7 @@ int main() {
                         printf(">>");
                         scanf("%d", &choice);
                         printf("\n");
-                        mySeek(file, choice);
+                        mySeek(file, choice, 0);
                         printf("\nVous avez été placé à l'emplacement %d du fichier \'%s\'.\n", choice, file->name);
                         break;
                 }

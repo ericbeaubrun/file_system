@@ -230,10 +230,6 @@ unsigned int convertAddressToPhysic(ushort address) {
     return (address * PAGE_MAX_SIZE) + PARTITION_METADATA_MAX_SIZE;
 }
 
-// TODO
-//calculate offsetInPage()
-//calculatePageIndex()
-
 void setPageAvailable(ushort address, const char *partitionName) {
     writeBooleanAtOffset(partitionName, convertAddressToPhysic(address), 0);
 }
@@ -319,5 +315,9 @@ File *findFileWithName(FileTable *fileTable, const char *filename) {
     }
     return NULL; // Fichier non trouvé
 }
+
+// TODO
+//calculateoffsetInPage()
+//calculatePageIndex()
 
 #endif
