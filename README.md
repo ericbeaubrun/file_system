@@ -4,16 +4,16 @@ This project is a custom file system developed as part of the Operating System c
 --- 
 
 # Key Features
-File Writing: Write data to files stored in the partition.
-File Reading: Read data from files stored in the partition.
-File Deletion: Remove files from the partition and mark their pages as available.
-Partition Management: Manipulate the partition, format, and manage file metadata.
+- File Writing: Write data to files stored in the partition.
+- File Reading: Read data from files stored in the partition.
+- File Deletion: Remove files from the partition and mark their pages as available.
+- Partition Management: Manipulate the partition, format, and manage file metadata.
 
 ---
 
 # Project Structure
-/include: Contains header files with function declarations and data structure definitions.
-/src: Contains the source code for partition manipulation and file operations.
+- /include: Contains header files with function declarations and data structure definitions.
+- /src: Contains the source code for partition manipulation and file operations.
 
 ---
 
