@@ -11,15 +11,15 @@ This project is a custom file system developed as part of the Operating System c
 
 ---
 
-# Project Structure
-- /include: Contains header files with function declarations and data structure definitions.
-- /src: Contains the source code for partition manipulation and file operations.
-
----
-
 # Prerequisites
 - Cygwin with e2fsprogs for formatting ext4 partitions on Windows.
 - Makefile to compile the project.
+
+---
+
+# Project Structure
+- /include: Contains header files with function declarations and data structure definitions.
+- /src: Contains the source code for partition manipulation and file operations.
 
 ---
 
